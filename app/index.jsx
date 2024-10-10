@@ -1,12 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import { Text, StyleSheet, View } from "react-native";
 import { Link } from "expo-router";
+import SignIn from "./(auth)/sign-in";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>ABCall movile</Text>
-      <Link href="/about" style={styles.link}> Go to Profile</Link>
+      <SignIn></SignIn>
       <StatusBar />
     </View>
   );
