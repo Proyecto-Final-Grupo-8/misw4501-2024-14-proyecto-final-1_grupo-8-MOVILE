@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  expo-app:
+    build: .
+    container_name: expo-app
+    working_dir: /app
+    ports:
+      - "8081:8081"
+      - "19000:19000"
+      - "19001:19001"
+      - "19002:19002"
+    volumes:
+      - .:/app
+    environment:
+      - EXPO_DEBUG=true
+      - NODE_ENV=development
+    command: >
+      sh -c "npm install && npx expo start --tunnel"
+    stdin_open: true
+    tty: true
+    networks:
+      - expo-network
+
+networks:
+  expo-network:
+    driver: bridge
