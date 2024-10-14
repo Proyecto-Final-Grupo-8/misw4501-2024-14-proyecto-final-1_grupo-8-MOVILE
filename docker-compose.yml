@@ -15,7 +15,7 @@ services:
       - EXPO_DEBUG=true
       - NODE_ENV=development
     command: >
-      sh -c "npm install && npx expo start --tunnel"
+      sh -c "npm install && npx expo start --web"
     stdin_open: true
     tty: true
     networks:
