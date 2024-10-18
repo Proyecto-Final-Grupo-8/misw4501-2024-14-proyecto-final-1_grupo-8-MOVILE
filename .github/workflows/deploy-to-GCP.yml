@@ -58,3 +58,5 @@ jobs:
             --platform managed \
             --allow-unauthenticated
         continue-on-error: false
+
+        
