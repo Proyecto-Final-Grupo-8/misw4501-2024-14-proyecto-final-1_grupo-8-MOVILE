@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
 import { Image, View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'; 
+import { useNavigation } from '@react-navigation/native';
 import colors from "../../constants/colors";
 
 const SignIn = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //const [isSelected, setSelection] = useState(false);
+  //const [isSelected, setSelected] = useState(false);
 
   const handleSignIn = () => {
     // Lógica para manejar el inicio de sesión
-    console.log(`Email: ${email}, Password: ${password}, Remember me: ${isSelected}`);
+    //console.log(`Email: ${email}, Password: ${password}`);
+    console.log('Clicked!');
+    navigation.navigate('Home');
   };
 
   return (
     <View style={styles.container}>
+      {/*Logo*/}
       <Image source={require('../../assets/icons/logo.png')} style={styles.logo} />
+      
+      {/*Titulo*/}
       <Text style={styles.title}>Log In</Text>
       <Text style={{marginBottom: 20}}>Log In to your Account</Text>
+      
+      {/*Email*/}
+      <View style={styles.inputContainer}>
+        <FontAwesome name="user" size={24} color="#666" style={styles.icon} />
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -26,6 +38,11 @@ const SignIn = () => {
         keyboardType="email-address"
         autoCapitalize="none"
       />
+      </View>
+
+      {/*Password*/}
+      <View style={styles.inputContainer}>
+        <FontAwesome name="lock" size={24} color="#666" style={styles.icon} />
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -33,14 +50,25 @@ const SignIn = () => {
         onChangeText={setPassword}
         secureTextEntry
       />
+      </View>
+      
+      {/*Remember me*/}
+      {/*<View style={styles.checkboxContainer}>
+        <CheckBox
+          value={isSelected}
+          onValueChange={setSelected}
+        />
+        <Text style={styles.checkboxLabel}>Remember me</Text>
+      </View>
+      */}
+      {/*Buttons*/}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.buttonPrimary} onPress={handleSignIn}>
-          <Text style={styles.buttonText}>Log In</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonSecondary}>
-          <Text style={styles.buttonText}>Create Account</Text>
+          <Text style={styles.buttonPrimaryText}>LogIn</Text>
         </TouchableOpacity>
         </View>
+
+      {/*Forgot Password*/}
         <TouchableOpacity>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
@@ -77,7 +105,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
-  input: {
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
     width: '100%',
     borderWidth: 1,
     borderColor: '#ccc',
@@ -86,16 +116,24 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 5,
     fontSize: 16,
+    //flex: 1, // Para que el input ocupe todo el espacio restante
   },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
+  icon: {
+    marginRight: 10, // Espacio entre el icono y el campo de texto
   },
-  checkboxLabel: {
-    marginLeft: 8,
+  input: {
+    flex: 1, 
     fontSize: 16,
   },
+  //checkboxContainer: {
+  //  flexDirection: 'row',
+  //  alignItems: 'center',
+  //  marginBottom: 20,
+  //},
+  //checkboxLabel: {
+  //  marginLeft: 8,
+  //  fontSize: 16,
+  //},
   buttonsContainer: {
     flexDirection: 'row', 
     justifyContent: 'space-between',
@@ -108,30 +146,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     borderRadius: 50,
     alignItems: 'center',
+    justifyContent: 'center',
     flex: 1,
     marginRight: 10,
   },
+  //buttonSecondary: {
+  //  backgroundColor: colors.secondary,
+  //  paddingVertical: 15,
+  //  paddingHorizontal: 30,
+  //  borderRadius: 50,
+  //  alignItems: 'center',
+  //  justifyContent: 'center',
+  //  flex: 1,
+  //  marginRight: 10, 
+  //},
   buttonPrimaryText: {
     color: '#fff',
-    fontSize: 25,
+    fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  buttonSecondary: {
-    backgroundColor: colors.secondary,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 50,
-    alignItems: 'center',
-    flex: 1,
-    marginRight: 10, 
-  },
-  buttonSecondaryText: {
-    color: '#fff',
-    fontSize: 25,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
+  //buttonSecondaryText: {
+  //  color: '#fff',
+  //  fontSize: 16,
+  //  fontWeight: 'bold',
+  //  textAlign: 'center',
+  //},
   forgotPasswordText: {
     color: '#666',
     fontSize: 16,
