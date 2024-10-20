@@ -1,77 +1,73 @@
-import React, { useState } from 'react';
-import { Image, View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
-import FontAwesome from 'react-native-vector-icons/FontAwesome'; 
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useContext } from "react";
+import {
+  Image,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  Alert
+} from "react-native";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { AuthContext } from '../../contexts/AuthContext';
 import colors from "../../constants/colors";
+import { router } from "expo-router";
 
 const SignIn = () => {
-  const navigation = useNavigation();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  //const [isSelected, setSelected] = useState(false);
+  const { login } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  const handleSignIn = () => {
-    // Lógica para manejar el inicio de sesión
-    //console.log(`Email: ${email}, Password: ${password}`);
-    console.log('Clicked!');
-    navigation.navigate('Home');
+  const handleLogin = async () => {
+    try {
+      await login(email, password); 
+      router.push("/home")
+    } catch (error) {
+      setErrorMessage(error.message); 
+    }
   };
 
   return (
     <View style={styles.container}>
-      {/*Logo*/}
-      <Image source={require('../../assets/icons/logo.png')} style={styles.logo} />
-      
-      {/*Titulo*/}
+      <Image source={require("../../assets/icons/logo.png")} style={styles.logo} />
       <Text style={styles.title}>Log In</Text>
-      <Text style={{marginBottom: 20}}>Log In to your Account</Text>
-      
-      {/*Email*/}
+      <Text style={{ marginBottom: 20 }}>Log In to your Account</Text>
+
+      {/* Mostrar mensaje de error si existe */}
+      {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
+
+      {/* Email */}
       <View style={styles.inputContainer}>
         <FontAwesome name="user" size={24} color="#666" style={styles.icon} />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
       </View>
 
-      {/*Password*/}
+      {/* Password */}
       <View style={styles.inputContainer}>
         <FontAwesome name="lock" size={24} color="#666" style={styles.icon} />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      </View>
-      
-      {/*Remember me*/}
-      {/*<View style={styles.checkboxContainer}>
-        <CheckBox
-          value={isSelected}
-          onValueChange={setSelected}
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
         />
-        <Text style={styles.checkboxLabel}>Remember me</Text>
       </View>
-      */}
-      {/*Buttons*/}
-      <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.buttonPrimary} onPress={handleSignIn}>
-          <Text style={styles.buttonPrimaryText}>LogIn</Text>
-        </TouchableOpacity>
-        </View>
 
-      {/*Forgot Password*/}
-        <TouchableOpacity>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      {/* Botón de Login */}
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.buttonPrimary} onPress={handleLogin}>
+          <Text style={styles.buttonPrimaryText}>Log In</Text>
         </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -79,15 +75,10 @@ const SignIn = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center', // Centra el contenido verticalmente
-    alignItems: 'center', // Centra el contenido horizontalmente
+    justifyContent: "center",
+    alignItems: "center",
     paddingHorizontal: 40,
-    backgroundColor: '#fff',
-  },
-  logoContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 5,
+    backgroundColor: "#fff",
   },
   logo: {
     width: 135,
@@ -95,49 +86,33 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 20,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     paddingVertical: 15,
     paddingHorizontal: 20,
     marginBottom: 20,
     borderRadius: 5,
     fontSize: 16,
-    //flex: 1, // Para que el input ocupe todo el espacio restante
   },
   icon: {
-    marginRight: 10, // Espacio entre el icono y el campo de texto
+    marginRight: 10,
   },
   input: {
-    flex: 1, 
+    flex: 1,
     fontSize: 16,
   },
-  //checkboxContainer: {
-  //  flexDirection: 'row',
-  //  alignItems: 'center',
-  //  marginBottom: 20,
-  //},
-  //checkboxLabel: {
-  //  marginLeft: 8,
-  //  fontSize: 16,
-  //},
   buttonsContainer: {
-    flexDirection: 'row', 
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     marginBottom: 20,
   },
   buttonPrimary: {
@@ -145,38 +120,21 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     flex: 1,
     marginRight: 10,
   },
-  //buttonSecondary: {
-  //  backgroundColor: colors.secondary,
-  //  paddingVertical: 15,
-  //  paddingHorizontal: 30,
-  //  borderRadius: 50,
-  //  alignItems: 'center',
-  //  justifyContent: 'center',
-  //  flex: 1,
-  //  marginRight: 10, 
-  //},
   buttonPrimaryText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
   },
-  //buttonSecondaryText: {
-  //  color: '#fff',
-  //  fontSize: 16,
-  //  fontWeight: 'bold',
-  //  textAlign: 'center',
-  //},
-  forgotPasswordText: {
-    color: '#666',
-    fontSize: 16,
-    textDecorationLine: 'underline',
-    marginTop: 10,
+  errorText: {
+    color: 'red',
+    marginBottom: 20,
+    fontSize: 14,
   },
 });
 

@@ -1,9 +1,10 @@
-import { Slot } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { Text , StyleSheet, View} from "react-native";
+import { AuthProvider } from "../contexts/AuthContext";
+import { Stack } from "expo-router";
 
 export default function App() {
   return (
-    <Slot/>
+    <AuthProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </AuthProvider>
   );
 }
