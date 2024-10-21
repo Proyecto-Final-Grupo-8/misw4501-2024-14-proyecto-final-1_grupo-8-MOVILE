@@ -1,25 +1,60 @@
-import { StatusBar } from "expo-status-bar";
-import { Text, StyleSheet, View } from "react-native";
-import { Link } from "expo-router";
+import { Text, StyleSheet, View, Image, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context"; 
+import CustomButton from "../components/CustomButton";
+import { router } from "expo-router";
+import icons from "../constants/icons";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>ABCall movile</Text>
-      <Link href="/about" style={styles.link}> Go to Profile</Link>
-      <StatusBar />
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView 
+        contentContainerStyle={styles.scrollContainer}
+      >
+        <View style={styles.view}>
+          <Image
+            source={icons.logo}
+            style={styles.image}
+          />
+          <CustomButton
+            title="Continue with Email"
+            handlePress={() => router.push("/sign-in")}
+            containerStyles={styles.button}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  scrollContainer: {
+    flexGrow: 1, 
+    justifyContent: 'center',
+    alignItems: 'center', 
+    backgroundColor: "white",
   },
-  link:{
-    color:"blue"
-  }
+  view: {
+    backgroundColor: "white",
+    width: "100%", 
+    justifyContent: "center",
+    alignItems: "center", 
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+  },
+  h1: {
+    fontSize: 24,       
+    fontWeight: "arial", 
+    textAlign: "left",
+    marginVertical: 10,
+  },
+  image: {
+    resizeMode: "contain",
+    width: 250,
+    height: 250,
+    marginBottom: 20,
+  },
+  button: {
+    width: '70%', 
+    marginTop: 28, 
+  },
 });
