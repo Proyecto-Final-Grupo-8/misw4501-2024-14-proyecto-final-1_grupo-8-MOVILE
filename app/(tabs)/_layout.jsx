@@ -8,10 +8,9 @@ const TabIcon = ({ icon, color, name, focused }) => {
     <View style={styles.tabView}>
       <Image
         source={icon}
-        resizeMode ="contain"
-        tintColor={color}
+        resizeMode="contain"
         style={[styles.tabImage, { tintColor: color }]}
-      ></Image>
+      />
       <Text>{name}</Text>
     </View>
   );
@@ -23,6 +22,8 @@ const TabsLayout = () => {
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,
+          lazy: true,
+          animationEnabled: true, 
         }}
       >
         <Tabs.Screen
@@ -82,14 +83,14 @@ export default TabsLayout;
 
 const styles = StyleSheet.create({
   tabImage: {
-    weight: 24,
+    width: 24, // Corrected typo
     height: 24,
   },
   tabView: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    margin: 4, 
+    margin: 4,
   },
   fontPsemibold: {
     fontFamily: "YourFontFamily",
