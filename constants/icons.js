@@ -4,6 +4,7 @@ import settings from "../assets/icons/settings.png";
 import user from "../assets/icons/home.png";
 import logo from "../assets/icons/logo.png";
 import abclogo_name from "../assets/icons/abclogo-name.png";
+import vertical_lines from "../assets/icons/vertical-lines.png";
 
 export default {
     alignJustify,
@@ -11,5 +12,6 @@ export default {
     settings,
     user,
     logo,
-    abclogo_name
+    abclogo_name,
+    vertical_lines
 }
