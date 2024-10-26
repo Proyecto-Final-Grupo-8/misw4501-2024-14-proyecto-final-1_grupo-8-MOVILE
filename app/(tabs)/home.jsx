@@ -11,10 +11,27 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import icons from "../../constants/icons";
+import { fetchIncidents } from "../../services/ApiProvider";
 
 export default function Home() {
   const [isOffCanvasVisible, setOffCanvasVisible] = useState(false);
-  const slideAnim = useState(new Animated.Value(-300))[0]; // Use initial value for the slide animation
+  const slideAnim = useState(new Animated.Value(-300))[0];
+
+  useEffect(() => {
+    const loadIncidents = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchIncidents();
+        setIncidents(data);
+      } catch (err) {
+        setError(err.message || "Failed to load incidents");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadIncidents();
+  }, []);
 
   const toggleOffCanvas = () => {
     if (isOffCanvasVisible) {
