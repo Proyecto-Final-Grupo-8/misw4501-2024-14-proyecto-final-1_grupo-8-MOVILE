@@ -1,27 +1,64 @@
 import React, { useState, useRef } from "react";
-import { Text, StyleSheet, View, Image, ScrollView, TouchableOpacity, Animated, Modal, Dimensions, PanResponder } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  Animated,
+  PanResponder,
+  Dimensions,
+} from "react-native";
+import { Tabs, Redirect } from "expo-router";
 import icons from "../../constants/icons";
+import { StatusBar } from "expo-status-bar";
+import { router } from "expo-router";
 
-const SCREEN_HEIGHT = Dimensions.get("window").height;
 
-export default function Home() {
+
+const TabIcon = ({ icon, color, name, focused }) => (
+  <View style={styles.tabView}>
+    <Image
+      source={icon}
+      resizeMode="contain"
+      tintColor={color}
+      style={[styles.tabImage, { tintColor: color }]}
+    />
+    <Text>{name}</Text>
+  </View>
+);
+
+const TabsLayout = () => {
   const [isOffCanvasVisible, setOffCanvasVisible] = useState(false);
-  const [isModalVisible, setModalVisible] = useState(false);
-  const slideAnim = useRef(new Animated.Value(-300)).current; 
+  const slideAnim = useRef(new Animated.Value(-300)).current;
+
+  const toggleOffCanvas = () => {
+    if (isOffCanvasVisible) {
+      closeOffCanvas();
+    } else {
+      openOffCanvas();
+    }
+  };
+
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: (_, gestureState) => {
+      // Detect horizontal drag when off-canvas is open
       return isOffCanvasVisible && Math.abs(gestureState.dx) > 20;
     },
     onPanResponderMove: (_, gestureState) => {
+      // If swiping to the left, allow dragging
       if (gestureState.dx < 0) {
         slideAnim.setValue(gestureState.dx);
       }
     },
     onPanResponderRelease: (_, gestureState) => {
+      // If swipe exceeds a threshold, close the off-canvas
       if (gestureState.dx < -100) {
         closeOffCanvas();
       } else {
+        // Reset to original position if swipe was not strong enough
         Animated.timing(slideAnim, {
           toValue: 0,
           duration: 200,
@@ -31,12 +68,9 @@ export default function Home() {
     },
   });
 
-  const toggleOffCanvas = () => {
-    if (isOffCanvasVisible) {
-      closeOffCanvas();
-    } else {
-      openOffCanvas();
-    }
+  const navigateToPage = (route) => {
+    closeOffCanvas()
+    router.push(route);
   };
 
   const openOffCanvas = () => {
@@ -56,14 +90,11 @@ export default function Home() {
     }).start(() => setOffCanvasVisible(false));
   };
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollViewContent}>
+    <>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          {/* Header Section */}
           <View style={styles.viewHeader}>
             <TouchableOpacity onPress={toggleOffCanvas}>
               <Image source={icons.vertical_lines} style={styles.menuIcon} />
@@ -71,15 +102,16 @@ export default function Home() {
             <Image source={icons.abclogo_name} style={styles.logo} />
           </View>
 
+          {/* Off-Canvas Menu */}
           {isOffCanvasVisible && (
             <Animated.View
               {...panResponder.panHandlers}
               style={[styles.offCanvas, { transform: [{ translateX: slideAnim }] }]}
             >
               <View style={styles.offCanvasContent}>
-                <Text style={styles.menuItem} onPress={toggleOffCanvas}>My Profile</Text>
-                <Text style={styles.menuItem} onPress={toggleOffCanvas}>My Issues</Text>
-                <Text style={styles.menuItem} onPress={toggleOffCanvas}>My Chat</Text>
+                <Text style={styles.menuItem} onPress={() => navigateToPage('/profile')}>My Profile</Text>
+                <Text style={styles.menuItem} onPress={() => navigateToPage('/issues')}>My Issues</Text>
+                <Text style={styles.menuItem} onPress={() => navigateToPage('/chat')}>My Chat</Text>
                 <TouchableOpacity onPress={toggleOffCanvas}>
                   <Text style={styles.exitButton}>Exit</Text>
                 </TouchableOpacity>
@@ -87,79 +119,82 @@ export default function Home() {
             </Animated.View>
           )}
 
-          <View style={styles.graphSection}>
-            <View style={styles.graphPlaceholder}>
-              <Text>Graph Placeholder</Text>
-            </View>
-          </View>
-
-          <Text style={styles.h1}>My Issues</Text>
-          <View style={styles.table}>
-            <View style={styles.tableRow}>
-              <Text style={styles.tableHeader}>#</Text>
-              <Text style={styles.tableHeader}>First</Text>
-              <Text style={styles.tableHeader}>Last</Text>
-              <Text style={styles.tableHeader}>Handle</Text>
-            </View>
-            <View style={styles.tableRow}>
-              <Text style={styles.tableData}>1</Text>
-              <Text style={styles.tableData}>Mark</Text>
-              <Text style={styles.tableData}>Otto</Text>
-              <Text style={styles.tableData}>@mdo</Text>
-            </View>
-          </View>
-        </ScrollView>
-
-        <TouchableOpacity style={styles.fab} onPress={toggleModal}>
-          <Text style={styles.fabText}>+</Text>
-        </TouchableOpacity>
-
-        <Modal
-          transparent={true}
-          visible={isModalVisible}
-          animationType="slide"
-          onRequestClose={toggleModal}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
-              <Text>Modal Content Here</Text>
-              <TouchableOpacity onPress={toggleModal}>
-                <Text>Close</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      </View>
-    </SafeAreaView>
+          {/* Tabs Navigation */}
+          <Tabs
+            screenOptions={{
+              tabBarShowLabel: false,
+            }}
+          >
+            <Tabs.Screen
+              name="home"
+              options={{
+                title: "Home",
+                headerShown: false,
+                tabBarIcon: ({ color, focused }) => (
+                  <TabIcon icon={icons.home} color={color} name="home" focused={focused} />
+                ),
+              }}
+            />
+            <Tabs.Screen
+              name="profile"
+              options={{
+                title: "Prof",
+                headerShown: false,
+                tabBarIcon: ({ color, focused }) => (
+                  <TabIcon icon={icons.alignJustify} color={color} name="profile" focused={focused} />
+                ),
+              }}
+            />
+            <Tabs.Screen
+              name="chat"
+              options={{
+                title: "Chat",
+                headerShown: false,
+                tabBarIcon: ({ color, focused }) => (
+                  <TabIcon icon={icons.alignJustify} color={color} name="chat" focused={focused} />
+                ),
+              }}
+            />
+            <Tabs.Screen
+              name="issues"
+              options={{
+                title: "Issues",
+                headerShown: false,
+                tabBarIcon: ({ color, focused }) => (
+                  <TabIcon icon={icons.alignJustify} color={color} name="issues" focused={focused} />
+                ),
+              }}
+            />
+          </Tabs>
+        </View>
+      </SafeAreaView>
+      <StatusBar backgroundColor="#161622" style="light" />
+    </>
   );
-}
+};
+
+export default TabsLayout;
 
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
-  container: {
-    flex: 1,
-  },
-  scrollViewContent: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    height: SCREEN_HEIGHT,
-  },
+  safeArea: { flex: 1, backgroundColor: "#161622" },
+  container: { flex: 1 },
   viewHeader: {
     flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
+    paddingHorizontal: 20,
+    backgroundColor: "white",
+    zIndex: 10,
+    height: 90,
+    paddingBottom:10,
   },
   menuIcon: {
-    width: 30,
-    height: 30,
-    marginRight: 10,
+    width: 22,
+    height: 22,
     resizeMode: "contain",
   },
   logo: {
-    width: 120,
+    width: 150,
     height: 30,
     resizeMode: "contain",
   },
@@ -168,7 +203,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     width: 250,
-    height: SCREEN_HEIGHT,
+    height: '100%',
     backgroundColor: "#e0e6ef",
     zIndex: 999,
     paddingTop: 40,
@@ -183,88 +218,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
   },
-  menuItem: {
-    fontSize: 18,
-    marginVertical: 15,
-    color: "#3a3a3a",
-    fontWeight: "600",
-  },
-  exitButton: {
-    fontSize: 18,
-    color: "#1d3557",
-    fontWeight: "bold",
-    marginTop: 30,
-  },
-  graphSection: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  graphPlaceholder: {
-    width: 150,
-    height: 150,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 75,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  h1: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "left",
-    marginVertical: 10,
-  },
-  table: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 5,
-    overflow: "hidden",
-    marginBottom: 20,
-  },
-  tableRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    backgroundColor: "#f9f9f9",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-  },
-  tableHeader: {
-    fontWeight: "bold",
-  },
-  tableData: {
-    fontSize: 14,
-  },
-  fab: {
-    position: "absolute",
-    bottom: 30,
-    right: 20,
-    width: 60,
-    height: 60,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 30,
-    justifyContent: "center",
-    alignItems: "center",
-    elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-  },
-  fabText: {
-    fontSize: 24,
-    color: "#000",
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContent: {
-    width: 300,
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-  },
+  menuItem: { padding: 10, color: "#333", fontSize: 18 },
+  exitButton: { marginTop: 20, color: "red" },
+  tabView: { alignItems: "center", justifyContent: "center" },
+  tabImage: { width: 24, height: 24 },
 });

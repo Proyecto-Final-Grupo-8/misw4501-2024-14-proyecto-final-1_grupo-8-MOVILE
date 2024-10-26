@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.juliocardenas.ABCall"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -27,6 +28,11 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b9c2c06c-e622-4091-bb2e-a426d00af28d"
+      }
+    }
   }
 }
