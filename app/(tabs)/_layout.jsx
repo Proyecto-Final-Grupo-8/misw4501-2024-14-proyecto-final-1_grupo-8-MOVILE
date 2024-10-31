@@ -16,8 +16,6 @@ import icons from "../../constants/icons";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
 
-
-
 const TabIcon = ({ icon, color, name, focused }) => (
   <View style={styles.tabView}>
     <Image
@@ -26,7 +24,7 @@ const TabIcon = ({ icon, color, name, focused }) => (
       tintColor={color}
       style={[styles.tabImage, { tintColor: color }]}
     />
-    <Text>{name}</Text>
+    {/* <Text>{name}</Text> */}
   </View>
 );
 
@@ -69,7 +67,7 @@ const TabsLayout = () => {
   });
 
   const navigateToPage = (route) => {
-    closeOffCanvas()
+    closeOffCanvas();
     router.push(route);
   };
 
@@ -106,15 +104,37 @@ const TabsLayout = () => {
           {isOffCanvasVisible && (
             <Animated.View
               {...panResponder.panHandlers}
-              style={[styles.offCanvas, { transform: [{ translateX: slideAnim }] }]}
+              style={[
+                styles.offCanvas,
+                { transform: [{ translateX: slideAnim }] },
+              ]}
             >
               <View style={styles.offCanvasContent}>
-                <Text style={styles.menuItem} onPress={() => navigateToPage('/profile')}>My Profile</Text>
-                <Text style={styles.menuItem} onPress={() => navigateToPage('/issues')}>My Issues</Text>
-                <Text style={styles.menuItem} onPress={() => navigateToPage('/chat')}>My Chat</Text>
-                <TouchableOpacity onPress={toggleOffCanvas}>
-                  <Text style={styles.exitButton}>Exit</Text>
-                </TouchableOpacity>
+                <View>
+                  <Text
+                    style={styles.menuItem}
+                    onPress={() => navigateToPage("/profile")}
+                  >
+                    My Profile
+                  </Text>
+                  <Text
+                    style={styles.menuItem}
+                    onPress={() => navigateToPage("/issues")}
+                  >
+                    My Issues
+                  </Text>
+                  <Text
+                    style={styles.menuItem}
+                    onPress={() => navigateToPage("/chat")}
+                  >
+                    My Chat
+                  </Text>
+                </View>
+                <View>
+                  <TouchableOpacity onPress={toggleOffCanvas}>
+                    <Text style={styles.exitButton}>Exit</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </Animated.View>
           )}
@@ -131,7 +151,12 @@ const TabsLayout = () => {
                 title: "Home",
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => (
-                  <TabIcon icon={icons.home} color={color} name="home" focused={focused} />
+                  <TabIcon
+                    icon={icons.home}
+                    color={color}
+                    name="home"
+                    focused={focused}
+                  />
                 ),
               }}
             />
@@ -141,7 +166,12 @@ const TabsLayout = () => {
                 title: "Prof",
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => (
-                  <TabIcon icon={icons.alignJustify} color={color} name="profile" focused={focused} />
+                  <TabIcon
+                    icon={icons.user}
+                    color={color}
+                    name="profile"
+                    focused={focused}
+                  />
                 ),
               }}
             />
@@ -151,7 +181,12 @@ const TabsLayout = () => {
                 title: "Chat",
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => (
-                  <TabIcon icon={icons.alignJustify} color={color} name="chat" focused={focused} />
+                  <TabIcon
+                    icon={icons.comments}
+                    color={color}
+                    name="chat"
+                    focused={focused}
+                  />
                 ),
               }}
             />
@@ -161,8 +196,19 @@ const TabsLayout = () => {
                 title: "Issues",
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => (
-                  <TabIcon icon={icons.alignJustify} color={color} name="issues" focused={focused} />
+                  <TabIcon
+                    icon={icons.newspaper}
+                    color={color}
+                    name="issues"
+                    focused={focused}
+                  />
                 ),
+              }}
+            />
+            <Tabs.Screen
+              name="incident/[id]"
+              options={{
+                href: null, // Remove this incident detail from tab tab bar
               }}
             />
           </Tabs>
@@ -186,7 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     zIndex: 10,
     height: 90,
-    paddingBottom:10,
+    paddingBottom: 10,
   },
   menuIcon: {
     width: 22,
@@ -203,8 +249,8 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     width: 250,
-    height: '100%',
-    backgroundColor: "#e0e6ef",
+    height: "100%",
+    backgroundColor: "#c8d6e5",
     zIndex: 999,
     paddingTop: 40,
     paddingHorizontal: 15,
@@ -216,10 +262,21 @@ const styles = StyleSheet.create({
   },
   offCanvasContent: {
     flex: 1,
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
+    height: 100,
+    paddingBottom:15
   },
   menuItem: { padding: 10, color: "#333", fontSize: 18 },
-  exitButton: { marginTop: 20, color: "red" },
+  exitButton: {
+    position: "absolute",
+    bottom: 0, 
+    left: 20, 
+    right: 20, 
+    fontSize: 18,
+    color: "#2e3a59", 
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   tabView: { alignItems: "center", justifyContent: "center" },
   tabImage: { width: 24, height: 24 },
 });
