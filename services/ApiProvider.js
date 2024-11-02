@@ -36,9 +36,9 @@ api.interceptors.response.use(
       const newToken = await reLoginWithStoredCredentials();
       if (newToken) {
         await AsyncStorage.setItem('token', newToken);
-        setAuthToken(newToken); // Update Axios with the new token
+        setAuthToken(newToken);
         originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-        return api(originalRequest); // Retry the original request with the new token
+        return api(originalRequest);
       }
     }
 
@@ -83,6 +83,29 @@ const reLoginWithStoredCredentials = async () => {
   } catch (error) {
     console.error('Error re-authenticating with stored credentials:', error);
     return null;
+  }
+};
+
+// Function to fetch user from the API
+// Fetch all incidents
+
+export const fetchUser = async () => {
+  try {
+    const response = await api.get('/user');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+    throw error;
+  }
+};
+
+export const updateUser = async (userId, body) => {
+  try {
+    const response = await api.put(`/user/${userId}`, body );
+    return response.data;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw error;
   }
 };
 
