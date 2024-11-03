@@ -138,7 +138,6 @@ export const getIncident = async (incidentId) => {
     const response = await api.get(`/incident/${incidentId}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching incident:', error);
     throw error;
   }
 };

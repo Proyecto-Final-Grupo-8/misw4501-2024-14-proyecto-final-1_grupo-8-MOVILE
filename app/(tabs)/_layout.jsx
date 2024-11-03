@@ -208,7 +208,8 @@ const TabsLayout = () => {
             <Tabs.Screen
               name="incident/[id]"
               options={{
-                href: null, // Remove this incident detail from tab tab bar
+                headerShown: false,
+                href: null,
               }}
             />
           </Tabs>
