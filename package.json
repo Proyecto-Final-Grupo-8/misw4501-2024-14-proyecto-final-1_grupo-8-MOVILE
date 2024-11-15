@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~3.2.3",
-    "@react-native-async-storage/async-storage": "^2.0.0",
+    "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/checkbox": "^0.5.17",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/native": "^6.1.18",
@@ -19,7 +19,7 @@
     "expo": "^51.0.38",
     "expo-constants": "~16.0.2",
     "expo-linking": "~6.3.1",
-    "expo-router": "~3.5.23",
+    "expo-router": "~3.5.24",
     "expo-status-bar": "~1.12.1",
     "expo-web-browser": "~13.0.3",
     "react": "18.2.0",
@@ -32,7 +32,11 @@
     "react-native-screens": "3.31.1",
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.10",
-    "react-router": "^6.26.2"
+    "react-router": "^6.26.2",
+    "i18next": "^22.0.0",
+    "react-i18next": "^12.0.0",
+    "i18next-http-backend": "^1.4.0",
+    "expo-localization": "~15.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
