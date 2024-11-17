@@ -125,7 +125,7 @@ export default function IncidentDetail() {
                     key={log.id}
                     style={[
                       styles.chatBubble,
-                      log.user_role === "admin"
+                      log.user_role != "customer"
                         ? styles.adminBubble
                         : styles.customerBubble,
                     ]}

@@ -210,5 +210,18 @@ export const updateLog = async (incidentId, logId, details) => {
   }
 };
 
+// Incident Log Management
+
+// Add a log to an incident
+export const addChat = async (details, context) => {
+  try {
+    const response = await api.post(`/chat`, { details , context});
+    return response.data;
+  } catch (error) {
+    message = `Error creating the chat: ${error}`
+    // console.error('Error creating the chat:', error);
+    throw message;
+  }
+};
 
 export default api;

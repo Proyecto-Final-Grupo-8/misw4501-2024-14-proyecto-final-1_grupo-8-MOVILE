@@ -112,18 +112,21 @@ const TabsLayout = () => {
               <View style={styles.offCanvasContent}>
                 <View>
                   <Text
+                    testID="profile-menu-item"
                     style={styles.menuItem}
                     onPress={() => navigateToPage("/profile")}
                   >
                     My Profile
                   </Text>
                   <Text
+                    testID="profile-issues-item"
                     style={styles.menuItem}
                     onPress={() => navigateToPage("/issues")}
                   >
                     My Issues
                   </Text>
                   <Text
+                    testID="profile-chat-item"
                     style={styles.menuItem}
                     onPress={() => navigateToPage("/chat")}
                   >
@@ -131,8 +134,15 @@ const TabsLayout = () => {
                   </Text>
                 </View>
                 <View>
-                  <TouchableOpacity onPress={toggleOffCanvas}>
-                    <Text style={styles.exitButton}>Exit</Text>
+                  <TouchableOpacity
+                    testID="menu-button"
+                    accessibilityLabel="Menu Button"
+                    onPress={toggleOffCanvas}
+                  >
+                    <Image
+                      source={icons.vertical_lines}
+                      style={styles.menuIcon}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -265,16 +275,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     height: 100,
-    paddingBottom:15
+    paddingBottom: 15,
   },
   menuItem: { padding: 10, color: "#333", fontSize: 18 },
   exitButton: {
     position: "absolute",
-    bottom: 0, 
-    left: 20, 
-    right: 20, 
+    bottom: 0,
+    left: 20,
+    right: 20,
     fontSize: 18,
-    color: "#2e3a59", 
+    color: "#2e3a59",
     fontWeight: "bold",
     textAlign: "center",
   },
