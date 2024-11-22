@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,8 +6,12 @@ import {
   TouchableOpacity,
   FlatList,
   Modal,
+  Dimensions,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons"; // For the "+" icon button
+import { PieChart } from "react-native-chart-kit"; // Import PieChart from chart-kit
+import { FontAwesome } from "@expo/vector-icons";
+
+const screenWidth = Dimensions.get("window").width;
 
 const Issues = () => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -15,6 +19,30 @@ const Issues = () => {
     { id: "1", first: "Mark", last: "Otto", handle: "@mdo" },
     { id: "2", first: "Mark", last: "Otto", handle: "@mdo" },
     { id: "3", first: "Mark", last: "Otto", handle: "@mdo" },
+  ];
+
+  const chartData = [
+    {
+      name: "Open Issues",
+      population: 20,
+      color: "#FF6347",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15,
+    },
+    {
+      name: "Resolved Issues",
+      population: 50,
+      color: "#32CD32",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15,
+    },
+    {
+      name: "Pending Issues",
+      population: 30,
+      color: "#FFD700",
+      legendFontColor: "#7F7F7F",
+      legendFontSize: 15,
+    },
   ];
 
   const renderRow = ({ item }) => (
@@ -33,6 +61,26 @@ const Issues = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My Issues</Text>
+
+      {/* Chart Section */}
+      <View style={styles.chartSection}>
+        <Text style={styles.chartTitle}>Issue Distribution</Text>
+        <PieChart
+          data={chartData}
+          width={screenWidth - 40} // Adjust width to fit screen
+          height={220}
+          chartConfig={{
+            backgroundColor: "#1cc910",
+            backgroundGradientFrom: "#eff3ff",
+            backgroundGradientTo: "#efefef",
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+          }}
+          accessor="population"
+          backgroundColor="transparent"
+          paddingLeft="15"
+          absolute // Show values inside the pie chart
+        />
+      </View>
 
       {/* Table Header */}
       <View style={styles.tableHeader}>
@@ -89,6 +137,16 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#4a4a4a",
   },
+  chartSection: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  chartTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+    color: "#4a4a4a",
+  },
   tableHeader: {
     flexDirection: "row",
     borderBottomWidth: 1,
@@ -114,25 +172,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#4a4a4a",
   },
-  addButton: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    backgroundColor: "#e0e6ef",
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  table: {
-    marginBottom: 60, // Space for the floating "+" button
-  },
   fab: {
     position: "absolute",
     bottom: 30,
@@ -148,6 +187,10 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
+  },
+  fabText: {
+    fontSize: 24,
+    color: "#000",
   },
   modalOverlay: {
     flex: 1,
