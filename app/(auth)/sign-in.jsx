@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Image,
   View,
@@ -13,6 +13,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import colors from "../../constants/colors";
 import { router } from "expo-router";
 import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 const SignIn = () => {
   const { t, i18n } = useTranslation();
@@ -20,6 +21,9 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+
+  console.log('Current Language:', i18n.language);
+
 
   const handleLogin = async () => {
     try {
@@ -70,7 +74,10 @@ const SignIn = () => {
           <Text style={styles.buttonPrimaryText}>{t('Log In')}</Text>
         </TouchableOpacity>
       </View>
-    </View>
+      
+      {/* Language Buttons */}
+      <LanguageSwitcher />
+      </View>
   );
 };
 
@@ -132,6 +139,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  languageButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  languageButton: {
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+  },
+  languageButtonText: {
+    fontSize: 14,
   },
   errorText: {
     color: 'red',
