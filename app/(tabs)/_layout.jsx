@@ -15,6 +15,8 @@ import { Tabs, Redirect } from "expo-router";
 import icons from "../../constants/icons";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 
 const TabIcon = ({ icon, color, name, focused }) => (
   <View style={styles.tabView}>
@@ -29,6 +31,7 @@ const TabIcon = ({ icon, color, name, focused }) => (
 );
 
 const TabsLayout = () => {
+  const { t } = useTranslation();
   const [isOffCanvasVisible, setOffCanvasVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(-300)).current;
 
@@ -115,19 +118,19 @@ const TabsLayout = () => {
                     style={styles.menuItem}
                     onPress={() => navigateToPage("/profile")}
                   >
-                    My Profile
+                    {t("My Profile")}
                   </Text>
                   <Text
                     style={styles.menuItem}
                     onPress={() => navigateToPage("/issues")}
                   >
-                    My Issues
+                    {t("My Issues")}
                   </Text>
                   <Text
                     style={styles.menuItem}
                     onPress={() => navigateToPage("/chat")}
                   >
-                    My Chat
+                    {t("My Chat")}
                   </Text>
                 </View>
                 <View>
@@ -148,7 +151,7 @@ const TabsLayout = () => {
             <Tabs.Screen
               name="home"
               options={{
-                title: "Home",
+                title: t("Home"),
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => (
                   <TabIcon
@@ -163,7 +166,7 @@ const TabsLayout = () => {
             <Tabs.Screen
               name="profile"
               options={{
-                title: "Prof",
+                title: t("Profile"),
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => (
                   <TabIcon
@@ -178,7 +181,7 @@ const TabsLayout = () => {
             <Tabs.Screen
               name="chat"
               options={{
-                title: "Chat",
+                title: t("Chat"),
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => (
                   <TabIcon
@@ -193,7 +196,7 @@ const TabsLayout = () => {
             <Tabs.Screen
               name="issues"
               options={{
-                title: "Issues",
+                title: t("Issues"),
                 headerShown: false,
                 tabBarIcon: ({ color, focused }) => (
                   <TabIcon
@@ -214,6 +217,7 @@ const TabsLayout = () => {
             />
           </Tabs>
         </View>
+        <LanguageSwitcher />
       </SafeAreaView>
       <StatusBar backgroundColor="#161622" style="light" />
     </>

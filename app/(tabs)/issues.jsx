@@ -7,9 +7,11 @@ import {
   FlatList,
   Modal,
 } from "react-native";
-import { FontAwesome } from "@expo/vector-icons"; // For the "+" icon button
+import { FontAwesome } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next"; // For the "+" icon button
 
 const Issues = () => {
+  const { t } = useTranslation();
   const [isModalVisible, setModalVisible] = useState(false);
   const data = [
     { id: "1", first: "Mark", last: "Otto", handle: "@mdo" },
@@ -32,14 +34,14 @@ const Issues = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Issues</Text>
+      <Text style={styles.title}>{t("My Issues")}</Text>
 
       {/* Table Header */}
       <View style={styles.tableHeader}>
         <Text style={[styles.tableHeaderText, styles.tableCell]}>#</Text>
-        <Text style={[styles.tableHeaderText, styles.tableCell]}>First</Text>
-        <Text style={[styles.tableHeaderText, styles.tableCell]}>Last</Text>
-        <Text style={[styles.tableHeaderText, styles.tableCell]}>Handle</Text>
+        <Text style={[styles.tableHeaderText, styles.tableCell]}>{t("First")}</Text>
+        <Text style={[styles.tableHeaderText, styles.tableCell]}>{t("Last")}</Text>
+        <Text style={[styles.tableHeaderText, styles.tableCell]}>{t("Handle")}</Text>
       </View>
 
       {/* Table Rows */}
@@ -64,9 +66,9 @@ const Issues = () => {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text>Modal Content Here</Text>
+            <Text>{t("Modal Content Here")}</Text>
             <TouchableOpacity onPress={toggleModal}>
-              <Text>Close</Text>
+              <Text>{t("Close")}</Text>
             </TouchableOpacity>
           </View>
         </View>

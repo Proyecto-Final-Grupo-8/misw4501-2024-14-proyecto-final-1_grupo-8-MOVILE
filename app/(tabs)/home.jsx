@@ -13,10 +13,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { fetchIncidents, addIncident } from "../../services/ApiProvider";
 import { useFocusEffect } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 
 export default function Home() {
+  const { t, i18n } = useTranslation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [incidents, setIncidents] = useState([]);
   const [newIncident, setNewIncident] = useState({
@@ -26,6 +29,8 @@ export default function Home() {
   });
 
   const router = useRouter();
+
+  console.log("Current Language:", i18n.language);
 
   useFocusEffect(
     useCallback(() => {
@@ -75,9 +80,9 @@ export default function Home() {
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.table}>
             <View style={styles.tableRow}>
-              <Text style={styles.tableHeader}>Created Date</Text>
-              <Text style={styles.tableHeader}>Description</Text>
-              <Text style={styles.tableHeader}>Status</Text>
+              <Text style={styles.tableHeader}>{t('Created Date')}</Text>
+              <Text style={styles.tableHeader}>{t('Description')}</Text>
+              <Text style={styles.tableHeader}>{t('Status')}</Text>
             </View>
 
             {incidents
@@ -112,9 +117,9 @@ export default function Home() {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <ScrollView>
-                <Text style={styles.modalTitle}>New Issue</Text>
+                <Text style={styles.modalTitle}>{t('New Issue')}</Text>
 
-                <Text style={styles.label}>Name</Text>
+                <Text style={styles.label}>{t('Name')}</Text>
                 <TextInput
                   style={styles.input}
                   placeholder="Issue 1"
@@ -122,10 +127,10 @@ export default function Home() {
                   onChangeText={(text) => handleInputChange("name", text)}
                 />
 
-                <Text style={styles.label}>Description</Text>
+                <Text style={styles.label}>{t('Description')}</Text>
                 <TextInput
                   style={[styles.input, styles.textArea]}
-                  placeholder="Description of the issue"
+                  placeholder={t('Description of the issue')}
                   multiline={true}
                   numberOfLines={4}
                   value={newIncident.description}
@@ -139,14 +144,14 @@ export default function Home() {
                     style={styles.saveButton}
                     onPress={handleCreateIncident}
                   >
-                    <Text style={styles.buttonText}>Save</Text>
+                    <Text style={styles.buttonText}>{t('Save')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.cancelButton}
                     onPress={toggleModal}
                   >
                     <Text style={[styles.buttonText, styles.cancelButtonText]}>
-                      Cancel
+                    {t('Cancel')}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -154,6 +159,7 @@ export default function Home() {
             </View>
           </View>
         </Modal>
+        <LanguageSwitcher />
       </View>
     </SafeAreaView>
   );
