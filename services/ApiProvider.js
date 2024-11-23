@@ -224,4 +224,42 @@ export const addChat = async (details, context) => {
   }
 };
 
+// Incident Log Management
+
+// Add a log to an incident
+export const graphqlQuery = async (record, filters, fields) => {
+  try {
+    const constructFields = (fields) => {
+      return fields
+        .map((field) => {
+          if (typeof field === 'string') {
+            return field;
+          } else if (typeof field === 'object') {
+            const [key, nestedFields] = Object.entries(field)[0];
+            return `${key} { ${constructFields(nestedFields)} }`;
+          }
+        })
+        .join(' ');
+    };
+
+    const constructFilters = (filters) => {
+      return Object.entries(filters || {})
+        .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+        .join(', ');
+    };
+
+    const filtersString = constructFilters(filters);
+    const fieldsString = constructFields(fields);
+
+    const query = `query MyQuery {${record}(${filtersString}) {${fieldsString}}}`;
+
+    console.log({ query });
+    const response = await api.post(`/graphql`, { query });
+    return response.data.data[record];
+  } catch (error) {
+    message = `Error fetching using graphql: ${error}`
+    throw message;
+  }
+};
+
 export default api;
