@@ -14,8 +14,10 @@ import {
   Alert,
 } from "react-native";
 import { addChat, addIncident } from "../../services/ApiProvider";
+import { useTranslation } from "react-i18next";
 
 export default function Chat() {
+  const { t } = useTranslation();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [context, setContext] = useState([]);
@@ -161,19 +163,19 @@ export default function Chat() {
         >
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>No Suggested Solutions</Text>
-              <Text style={styles.label}>The Chat bot can not find further information</Text>
-              <Text style={styles.label}>A new Incident will be created with the following detail:</Text>
+              <Text style={styles.modalTitle}>{t("No Suggested Solutions")}</Text>
+              <Text style={styles.label}>{t("The Chat bot can not find further information")}</Text>
+              <Text style={styles.label}>{t("A new Incident will be created with the following detail:")}</Text>
 
               <Text style={styles.modalDetails}>{incidentDetails}</Text>
 
-              <Text style={styles.label}>Do you want to continue?</Text>
+              <Text style={styles.label}>{t("Do you want to continue?")}</Text>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
                   style={styles.saveButton}
                   onPress={handleCreateIncident}
                 >
-                  <Text style={styles.buttonText}>Save</Text>
+                  <Text style={styles.buttonText}>{t("Save")}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.cancelButton}

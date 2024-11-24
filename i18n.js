@@ -46,6 +46,10 @@ const resources = {
             "Handle": "Manejar",
             "Modal Content Here": "Contenido del Modal Aquí",
             "Close": "Cerrar",
+            "No Suggested Solutions": "No hay soluciones sugeridas",
+            "The Chat bot can not find further information": "El Chat bot no puede encontrar más información",
+            "A new Incident will be created with the following detail:": "Se creará un nuevo incidente con el siguiente detalle:",
+            "Do you want to continue?": "¿Quieres continuar?",
 
           
         },
