@@ -10,8 +10,10 @@ import {
   ScrollView,
 } from "react-native";
 import { fetchUser, updateUser } from "../../services/ApiProvider";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
+  const { t } = useTranslation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [user, setUser] = useState({
     id: "",
@@ -86,30 +88,30 @@ const Profile = () => {
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.container}>
-        <Text style={styles.title}>My Profile</Text>
+        <Text style={styles.title}>{t("My Profile")}</Text>
 
-        <Text style={styles.label}>Username</Text>
+        <Text style={styles.label}>{t("Username")}</Text>
         <TextInput
           style={styles.input}
           value={user.username}
           onChangeText={(text) => handleChange("username", text)}
         />
 
-        <Text style={styles.label}>Name</Text>
+        <Text style={styles.label}>{t("Name")}</Text>
         <TextInput
           style={styles.input}
           value={user.name}
           onChangeText={(text) => handleChange("name", text)}
         />
 
-        <Text style={styles.label}>Last Name</Text>
+        <Text style={styles.label}>{t("Last Name")}</Text>
         <TextInput
           style={styles.input}
           value={user.last_name}
           onChangeText={(text) => handleChange("last_name", text)}
         />
 
-        <Text style={styles.label}>Email</Text>
+        <Text style={styles.label}>{t("Email")}</Text>
         <TextInput
           style={styles.input}
           keyboardType="email-address"
@@ -117,7 +119,7 @@ const Profile = () => {
           onChangeText={(text) => handleChange("email", text)}
         />
 
-        <Text style={styles.label}>Phone</Text>
+        <Text style={styles.label}>{t("Phone")}</Text>
         <TextInput
           style={styles.input}
           keyboardType="phone-pad"
@@ -127,7 +129,7 @@ const Profile = () => {
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-            <Text style={styles.buttonText}>Save</Text>
+            <Text style={styles.buttonText}>{t("Save")}</Text>
           </TouchableOpacity>
         </View>
 
@@ -144,7 +146,7 @@ const Profile = () => {
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <ScrollView>
-                <Text style={styles.modalTitle}>Change Password</Text>
+                <Text style={styles.modalTitle}>{t("Change Password")}</Text>
 
                 <TextInput
                   style={styles.input}
@@ -157,14 +159,14 @@ const Profile = () => {
                     style={styles.saveButton}
                     onPress={handleChangePassword}
                   >
-                    <Text style={styles.buttonText}>Save</Text>
+                    <Text style={styles.buttonText}>{t("Save")}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.cancelButton}
                     onPress={toggleModal}
                   >
                     <Text style={[styles.buttonText, styles.cancelButtonText]}>
-                      Cancel
+                    {t("Cancel")}
                     </Text>
                   </TouchableOpacity>
                 </View>

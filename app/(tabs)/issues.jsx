@@ -9,10 +9,12 @@ import {
 } from "react-native";
 import { PieChart, BarChart } from "react-native-chart-kit";
 import { graphqlQuery } from "../../services/ApiProvider";
+import { useTranslation } from "react-i18next"; // For the "+" icon button
 
 const screenWidth = Dimensions.get("window").width;
 
 const Issues = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [incidents, setIncidents] = useState([]);
   const [summary, setSummary] = useState(null);
@@ -127,7 +129,7 @@ const Issues = () => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-      <Text style={styles.chartTitle}>Open vs Closed Cases</Text>
+      <Text style={styles.chartTitle}>{t("Open vs Closed Cases")}</Text>
       <PieChart
         data={pieChartData}
         width={screenWidth - 30}
@@ -171,14 +173,14 @@ const Issues = () => {
         }}
       />
 
-      <Text style={styles.subtitle}>Most Recent Created Issue:</Text>
+      <Text style={styles.subtitle}>{t("Most Recent Created Issue:")}</Text>
       <Text style={styles.info}>
-        ID: {summary.mostRecentCreated.id} - Description:{" "}
+        ID: {summary.mostRecentCreated.id} - {t("Description:")}{" "}
         {summary.mostRecentCreated.description}
       </Text>
-      <Text style={styles.subtitle}>Most Recent Modified Issue:</Text>
+      <Text style={styles.subtitle}>{t("Most Recent Modified Issue:")}</Text>
       <Text style={styles.info}>
-        ID: {summary.mostRecentModified.id} - Description:{" "}
+        ID: {summary.mostRecentModified.id} - {t("Description:")}{" "}
         {summary.mostRecentModified.description}
       </Text>
     </ScrollView>

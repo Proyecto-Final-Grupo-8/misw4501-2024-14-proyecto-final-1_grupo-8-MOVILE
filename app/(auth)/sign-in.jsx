@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Image,
   View,
@@ -12,12 +12,18 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { AuthContext } from '../../contexts/AuthContext';
 import colors from "../../constants/colors";
 import { router } from "expo-router";
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 const SignIn = () => {
+  const { t, i18n } = useTranslation();
   const { login } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+
+  console.log('Current Language:', i18n.language);
+
 
   const handleLogin = async () => {
     try {
@@ -31,8 +37,8 @@ const SignIn = () => {
   return (
     <View style={styles.container}>
       <Image source={require("../../assets/icons/logo.png")} style={styles.logo} />
-      <Text style={styles.title}>Log In</Text>
-      <Text style={{ marginBottom: 20 }}>Log In to your Account</Text>
+      <Text style={styles.title}>{t('Log In')}</Text>
+      <Text style={{ marginBottom: 20 }}>{t('Log In to your Account')}</Text>
 
       {/* Mostrar mensaje de error si existe */}
       {errorMessage && <Text style={styles.errorText}>{errorMessage}</Text>}
@@ -42,7 +48,7 @@ const SignIn = () => {
         <FontAwesome name="user" size={24} color="#666" style={styles.icon} />
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder={t('Email')}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -55,7 +61,7 @@ const SignIn = () => {
         <FontAwesome name="lock" size={24} color="#666" style={styles.icon} />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder={t('Password')}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -65,10 +71,13 @@ const SignIn = () => {
       {/* Botón de Login */}
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.buttonPrimary} onPress={handleLogin}>
-          <Text style={styles.buttonPrimaryText}>Log In</Text>
+          <Text style={styles.buttonPrimaryText}>{t('Log In')}</Text>
         </TouchableOpacity>
       </View>
-    </View>
+      
+      {/* Language Buttons */}
+      <LanguageSwitcher />
+      </View>
   );
 };
 
@@ -130,6 +139,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  languageButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  languageButton: {
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+  },
+  languageButtonText: {
+    fontSize: 14,
   },
   errorText: {
     color: 'red',
