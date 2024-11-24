@@ -38,41 +38,46 @@ const Issues = () => {
 
   const calculateSummary = (incidents) => {
     const totalIssues = incidents.length;
-
-    const openIssues = incidents.filter((issue) => issue.status === "Open")
-      .length;
-    const closedIssues = incidents.filter((issue) => issue.status === "Closed")
-      .length;
-
+  
+    const openIssues = incidents.filter((issue) => issue.status === "Open").length;
+    const closedIssues = incidents.filter((issue) => issue.status === "Closed").length;
+  
     const issuesByDate = incidents.reduce((acc, issue) => {
-      const date = issue.createdDate.split(" ")[0]; // Extract date part
+      const date = issue.createdDate.split(" ")[0];
       if (!acc[date]) acc[date] = 0;
       acc[date]++;
       return acc;
     }, {});
-
+  
+    const sortedIssuesByDate = Object.entries(issuesByDate)
+      .sort(([dateA], [dateB]) => new Date(dateA) - new Date(dateB))
+      .reduce((acc, [date, count]) => {
+        const formattedDate = new Intl.DateTimeFormat("en-US", {
+          day: "2-digit",
+          month: "short",
+        }).format(new Date(date));
+        acc[formattedDate] = count;
+        return acc;
+      }, {});
+  
     const mostRecentCreated = incidents.reduce((latest, issue) => {
-      return new Date(issue.createdDate) > new Date(latest.createdDate)
-        ? issue
-        : latest;
+      return new Date(issue.createdDate) > new Date(latest.createdDate) ? issue : latest;
     }, incidents[0]);
-
+  
     const mostRecentModified = incidents.reduce((latest, issue) => {
-      return new Date(issue.modifiedDate) > new Date(latest.modifiedDate)
-        ? issue
-        : latest;
+      return new Date(issue.modifiedDate) > new Date(latest.modifiedDate) ? issue : latest;
     }, incidents[0]);
-
+  
     setSummary({
       totalIssues,
       openIssues,
       closedIssues,
-      issuesByDate,
+      issuesByDate: sortedIssuesByDate,
       mostRecentCreated,
       mostRecentModified,
     });
   };
-
+  
   useEffect(() => {
     fetchIncidents();
   }, []);
@@ -97,14 +102,14 @@ const Issues = () => {
     {
       name: "Open",
       population: summary.openIssues,
-      color: "#FF6347",
+      color: "#ed7e39",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
     {
       name: "Closed",
       population: summary.closedIssues,
-      color: "#32CD32",
+      color: "#321FDB",
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
@@ -142,19 +147,27 @@ const Issues = () => {
       <Text style={styles.chartTitle}>Issues Grouped by Date</Text>
       <BarChart
         data={barChartData}
-        width={screenWidth - 40}
-        height={250}
+        width={screenWidth -  40}
+        height={200}
         yAxisLabel=""
         chartConfig={{
-          backgroundColor: "white",
-          backgroundGradientFrom: "#eff3ff",
-          backgroundGradientTo: "#efefef",
+          backgroundColor: "#fff",
+          backgroundGradientFrom: "#fff",
+          backgroundGradientTo: "#fff",
           decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-          labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+          color: (opacity = 0.5) => `rgba(0, 0, 0, ${opacity})`,
+          labelColor: (opacity = 0.5) => `rgba(0, 0, 0, ${opacity})`,
           style: {
             borderRadius: 16,
+            paddingLeft: -20,
+            paddingLeft: -0,
+            marginLeft: -20,
           },
+        }}
+        style={{
+          marginVertical: 8,
+          borderRadius: 16,
+          paddingLeft: -80,
         }}
       />
 
