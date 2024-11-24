@@ -132,6 +132,7 @@ const TabsLayout = () => {
                   >
                     {t("My Chat")}
                   </Text>
+                  <LanguageSwitcher />
                 </View>
                 <View>
                   <TouchableOpacity onPress={toggleOffCanvas}>
@@ -217,7 +218,6 @@ const TabsLayout = () => {
             />
           </Tabs>
         </View>
-        <LanguageSwitcher />
       </SafeAreaView>
       <StatusBar backgroundColor="#161622" style="light" />
     </>
