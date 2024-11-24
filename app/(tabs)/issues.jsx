@@ -7,24 +7,14 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
-<<<<<<< HEAD
-import { FontAwesome } from "@expo/vector-icons";
-import { useTranslation } from "react-i18next"; // For the "+" icon button
-
-const Issues = () => {
-  const { t } = useTranslation();
-  const [isModalVisible, setModalVisible] = useState(false);
-  const data = [
-    { id: "1", first: "Mark", last: "Otto", handle: "@mdo" },
-    { id: "2", first: "Mark", last: "Otto", handle: "@mdo" },
-    { id: "3", first: "Mark", last: "Otto", handle: "@mdo" },
-=======
 import { PieChart, BarChart } from "react-native-chart-kit";
 import { graphqlQuery } from "../../services/ApiProvider";
+import { useTranslation } from "react-i18next"; // For the "+" icon button
 
 const screenWidth = Dimensions.get("window").width;
 
 const Issues = () => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [incidents, setIncidents] = useState([]);
   const [summary, setSummary] = useState(null);
@@ -120,7 +110,6 @@ const Issues = () => {
       legendFontColor: "#7F7F7F",
       legendFontSize: 15,
     },
->>>>>>> master
   ];
 
   const barChartData = {
@@ -133,28 +122,9 @@ const Issues = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <View style={styles.container}>
-      <Text style={styles.title}>{t("My Issues")}</Text>
-
-      {/* Table Header */}
-      <View style={styles.tableHeader}>
-        <Text style={[styles.tableHeaderText, styles.tableCell]}>#</Text>
-        <Text style={[styles.tableHeaderText, styles.tableCell]}>{t("First")}</Text>
-        <Text style={[styles.tableHeaderText, styles.tableCell]}>{t("Last")}</Text>
-        <Text style={[styles.tableHeaderText, styles.tableCell]}>{t("Handle")}</Text>
-      </View>
-
-      {/* Table Rows */}
-      <FlatList
-        data={data}
-        renderItem={renderRow}
-        keyExtractor={(item) => item.id}
-        style={styles.table}
-=======
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-      <Text style={styles.chartTitle}>Open vs Closed Cases</Text>
+      <Text style={styles.chartTitle}>{t("Open vs Closed Cases")}</Text>
       <PieChart
         data={pieChartData}
         width={screenWidth - 30}
@@ -169,7 +139,6 @@ const Issues = () => {
         backgroundColor="transparent"
         paddingLeft="15"
         absolute
->>>>>>> master
       />
 
       <Text style={styles.chartTitle}>Issues Grouped by Date</Text>
@@ -191,37 +160,17 @@ const Issues = () => {
         }}
       />
 
-<<<<<<< HEAD
-      {/* Modal */}
-      <Modal
-        transparent={true}
-        visible={isModalVisible}
-        animationType="slide"
-        onRequestClose={toggleModal}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text>{t("Modal Content Here")}</Text>
-            <TouchableOpacity onPress={toggleModal}>
-              <Text>{t("Close")}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
-=======
-      <Text style={styles.subtitle}>Most Recent Created Issue:</Text>
+      <Text style={styles.subtitle}>{t("Most Recent Created Issue:")}</Text>
       <Text style={styles.info}>
-        ID: {summary.mostRecentCreated.id} - Description:{" "}
+        ID: {summary.mostRecentCreated.id} - {t("Description:")}{" "}
         {summary.mostRecentCreated.description}
       </Text>
-      <Text style={styles.subtitle}>Most Recent Modified Issue:</Text>
+      <Text style={styles.subtitle}>{t("Most Recent Modified Issue:")}</Text>
       <Text style={styles.info}>
-        ID: {summary.mostRecentModified.id} - Description:{" "}
+        ID: {summary.mostRecentModified.id} - {t("Description:")}{" "}
         {summary.mostRecentModified.description}
       </Text>
     </ScrollView>
->>>>>>> master
   );
 };
 
