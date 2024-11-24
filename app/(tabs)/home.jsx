@@ -87,7 +87,9 @@ export default function Home() {
 
             {incidents
               .slice()
-              .reverse()
+              .sort((a, b) => {
+                return new Date(b.created_date) - new Date(a.created_date);
+              })
               .map((incident, index) => (
                 <TouchableOpacity
                   key={incident.id}
