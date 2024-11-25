@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import 'intl-pluralrules';
 //import translationEN from './local/en/translation.json';
 //import translationES from './local/es/translation.json';
 
@@ -63,18 +64,21 @@ const resources = {
 // Inicializar i18n
 i18n
   .use(LanguageDetector)
-  .use(initReactI18next) // Vincula i18next con react-i18next
+  .use(initReactI18next)
   .init({
     resources,
-    lng: 'en', // Idioma inicial
+    lng: 'en',
     fallbackLng: 'en',
     debug: true,
+    compatibilityJSON: 'v3',
     interpolation: {
-      escapeValue: false, // React ya maneja el escape
+      escapeValue: false,
     },
-  }).then(() => {
+  })
+  .then(() => {
     console.log('i18n initialized successfully');
-  }).catch(err => {
+  })
+  .catch(err => {
     console.error('Error initializing i18n:', err);
   });
 

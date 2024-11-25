@@ -76,7 +76,7 @@ const SignIn = () => {
       </View>
       
       {/* Language Buttons */}
-      <LanguageSwitcher />
+      {/* <LanguageSwitcher /> */}
       </View>
   );
 };

@@ -7,6 +7,7 @@ import {
   Dimensions,
   ScrollView,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PieChart, BarChart } from "react-native-chart-kit";
 import { graphqlQuery } from "../../services/ApiProvider";
 import { useTranslation } from "react-i18next"; // For the "+" icon button
@@ -20,8 +21,9 @@ const Issues = () => {
   const [summary, setSummary] = useState(null);
 
   const fetchIncidents = async () => {
+    const username = await AsyncStorage.getItem('username');
     try {
-      const incidents = await graphqlQuery("incidents", { source: "web" }, [
+      const incidents = await graphqlQuery("incidents", { customerUsername: username }, [
         "id",
         "description",
         "status",

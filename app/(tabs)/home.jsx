@@ -74,9 +74,6 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <View style={styles.graphSection}>
-          <View style={styles.graphPlaceholder}></View>
-        </View>
         <ScrollView contentContainerStyle={styles.scrollViewContent}>
           <View style={styles.table}>
             <View style={styles.tableRow}>
@@ -161,7 +158,7 @@ export default function Home() {
             </View>
           </View>
         </Modal>
-        <LanguageSwitcher />
+        {/* <LanguageSwitcher /> */}
       </View>
     </SafeAreaView>
   );
