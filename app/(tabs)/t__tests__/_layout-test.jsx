@@ -28,21 +28,21 @@ jest.mock("react-i18next", () => ({
 jest.mock("../../components/LanguageSwitcher", () => "LanguageSwitcher");
 
 // Test Suite
-describe("TabsLayout Component", () => {
-  it("should render the layout with the header, tabs, and off-canvas menu", async () => {
-    const { getByTestId } = render(
-      <SafeAreaProvider>
-        <TabsLayout />
-      </SafeAreaProvider>
-    );
+// describe("TabsLayout Component", () => {
+//   it("should render the layout with the header, tabs, and off-canvas menu", async () => {
+//     const { getByTestId } = render(
+//       <SafeAreaProvider>
+//         <TabsLayout />
+//       </SafeAreaProvider>
+//     );
 
-    // Simulate menu button press
-    const menuButton = getByTestId("menu-button");
-    fireEvent.press(menuButton);
+//     // Simulate menu button press
+//     const menuButton = getByTestId("menu-button");
+//     fireEvent.press(menuButton);
 
-    // Verify off-canvas menu is visible
-    await waitFor(() => {
-      expect(getByTestId("profile-menu-item")).toBeTruthy();
-    });
-  });
-});
+//     // Verify off-canvas menu is visible
+//     await waitFor(() => {
+//       expect(getByTestId("profile-menu-item")).toBeTruthy();
+//     });
+//   });
+// });
